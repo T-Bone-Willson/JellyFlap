@@ -45,8 +45,8 @@ states = {
 
 bird = {
 	// position of Jelly Fish
-	x: 80,
-	y: 80,
+	x: 60,
+	y: 0,
 	frame: 0,
 	velocity: 0,
 	// Frame animation sequence. Tells the code which sprite to draw/animate first, second and then last
@@ -62,7 +62,16 @@ bird = {
 	},
 
 	update: function(){
+		// This checks the states of the animation frames... I believe.
+		var nFrame = currentstate === states.Splash ? 10 : 5;
+		this.frame += frames % nFrame === 0? 1 : 0;
+		this.frame %= this.animation.length;
+		// Either way, it works!
 
+		if (currentstate === states.Splash){
+			this.y = height - 280 + 5*Math.cos(frames/10); //makes the bird go 5 px and down 5px in a constant 10 frame sper second.
+			this.rotation = 0;
+		}
 	},
 	draw: function(ctx){
 
@@ -103,6 +112,9 @@ function main(){
 	canvas.height = height;
 	ctx = canvas.getContext("2d");
 
+	// State of the game 
+	currentstate = states.Splash;
+
 	document.body.appendChild(canvas);
 	// Load sprit sheet
 	var img = new Image();
@@ -127,6 +139,9 @@ function update(){
 	frames++
 	// Makes forground position constantly move to the left
 	fgpos = (fgpos -2) % 14;
+
+	bird.update();
+	pipes.update();
 }
 
 function render(){
@@ -136,7 +151,9 @@ function render(){
 	s_bg.draw(ctx, 0, height - s_bg.height);
 	s_bg.draw(ctx, s_bg.width, height - s_bg.height); 
 
+	// Renders animation frames for bird
 	bird.draw(ctx);
+	pipes.draw(ctx);
 
 	//sets forground sprite in correction position and size
 	s_fg.draw(ctx, fgpos, height - s_fg.height);
