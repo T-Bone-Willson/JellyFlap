@@ -56,7 +56,7 @@ function main(){
 	if(width >= 500){ // checks screen width to see if it's a mobile
 		width = 320; // reset width to this
 		height = 480; // reset height to this
-		canvas.style.border = "1px solid #000";
+		canvas.style.border = "1px solid #000"; // creates border
 	}
 
 	canvas.width = width;
@@ -64,10 +64,22 @@ function main(){
 	ctx = canvas.getContext("2d");
 
 	document.body.appendChild(canvas);
+	// Load sprit sheet
+	var img = new Image();
+	img.onload = function(){
+		initSprites(this); // 'this' is pointing to the object "initsprites"
+		run();
+	}
+	img.src = "res/sheet.png";
 }
 
 function run(){
-
+	var loop = function(){
+		update();
+		render();
+		window.requestAnimationFrame(loop, canvas);
+	}
+	window.requestAnimationFrame(loop, canvas);
 }
 
 function update(){
@@ -75,7 +87,9 @@ function update(){
 }
 
 function render(){
-
+	// 's_bg' is background sprite
+	s_bg.draw(ctx, 0, height - s_bg.height);
+	s_bg.draw(ctx, s_bg.width, height - s_bg.height);
 }
 
 main();
