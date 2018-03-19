@@ -32,20 +32,60 @@ canvas,
 ctx,
 width,
 height,
-// ^^ These are all variables
-
+fgpos = 0, // This variable dictated the position of the foreground sprite
 frames = 0,
 score = 0,
 best = 0,
+// ^^ These are all variables
 
 currentstate, //Creates the differnt states for the game
 states = {
 	Splash: 0, Game: 1, Score : 2
 },
 
-bird = {},
+bird = {
+	// position of Jelly Fish
+	x: 80,
+	y: 80,
+	frame: 0,
+	velocity: 0,
+	// Frame animation sequence. Tells the code which sprite to draw/animate first, second and then last
+	animation: [0, 1, 2, 1],
+	rotation: 0,
+	// Set gravity for the bird to fall.
+	gravity: 0.25,
+	// sets how high the jelly fish jumps
+	jumpHeight: 4.6,
 
-pipes = {}; // ';' closes off the variables above ^^
+	jump: function(){
+		this.velocity = -this.jumpHeight
+	},
+
+	update: function(){
+
+	},
+	draw: function(ctx){
+
+		ctx.save();
+		ctx.translate(this.x, this.y);
+		ctx.rotate(this.rotation);
+
+		var nFrame = this.animation[this.frame];
+		s_bird[nFrame].draw(ctx, - s_bird[nFrame].width/2, - s_bird[nFrame].height/2);
+
+		ctx.restore();
+	},
+},
+
+pipes = {
+
+	update: function(){
+
+	},
+	draw: function(ctx){
+
+	},
+}; // ';' closes off the variables above ^^
 
 // Boilerplater Game loop
 function main(){
@@ -68,6 +108,7 @@ function main(){
 	var img = new Image();
 	img.onload = function(){
 		initSprites(this); // 'this' is pointing to the object "initsprites"
+		ctx.fillStyle = s_bg.color; // 'color' is "#70C5CF" on sprite sheet
 		run();
 	}
 	img.src = "res/sheet.png";
@@ -83,13 +124,23 @@ function run(){
 }
 
 function update(){
-
+	frames++
+	// Makes forground position constantly move to the left
+	fgpos = (fgpos -2) % 14;
 }
 
 function render(){
+	ctx.fillRect(0, 0, width, height);
 	// 's_bg' is background sprite
+	// sets background sprite in correct position and size
 	s_bg.draw(ctx, 0, height - s_bg.height);
-	s_bg.draw(ctx, s_bg.width, height - s_bg.height);
+	s_bg.draw(ctx, s_bg.width, height - s_bg.height); 
+
+	bird.draw(ctx);
+
+	//sets forground sprite in correction position and size
+	s_fg.draw(ctx, fgpos, height - s_fg.height);
+	s_fg.draw(ctx, fgpos + s_fg.width, height - s_fg.height);
 }
 
 main();
