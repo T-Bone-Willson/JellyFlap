@@ -96,17 +96,41 @@ pipes = {
 	},
 }; // ';' closes off the variables above ^^
 
+function onpress(evt){
+	switch (currentstate){
+		// Makes a case switch to interchange between the differnt game states. Going from top to bottom. And then back to top again.
+		case states.Splash:
+			currentstate = states.Game;
+			bird.jump();
+			break;
+		case states.Game:
+			currentstate = states.Score;
+			bird.jump();
+			break;
+			// WILL COME BACK TO SORT THIS SECTION OUT!!!!!!!!!!!!
+		case states.Score:
+			currenstate = states.Splash
+			break;
+	}
+}
+
 // Boilerplater Game loop
 function main(){
 	canvas = document.createElement("canvas");
 	width = window.innerWidth;
 	height =window.innerHeight;
 
+	// variable for mobile tab
+	var evt = "touchstart";
 	if(width >= 500){ // checks screen width to see if it's a mobile
 		width = 320; // reset width to this
 		height = 480; // reset height to this
 		canvas.style.border = "1px solid #000"; // creates border
+		// if on desktop, accept mouse input.
+		evt = "mousedown";
 	}
+
+	document.addEventListener(evt, onpress);
 
 	canvas.width = width;
 	canvas.height = height;
@@ -158,6 +182,15 @@ function render(){
 	//sets forground sprite in correction position and size
 	s_fg.draw(ctx, fgpos, height - s_fg.height);
 	s_fg.draw(ctx, fgpos + s_fg.width, height - s_fg.height);
+
+	//create variable width 2 to stop us typing in width/2 all the time.
+	var width2 = width/2;
+	// If the game is in pre game state, then draw/present the "tap" instruction animation.
+	if (currentstate === states.Splash){
+		s_splash.draw(ctx, width2 - s_splash.width/2, height - 300);
+		// draws the "Get Ready" sprite Message in this current state.
+		s_text.GetReady.draw(ctx, width2 - s_text.GetReady.width/2, height - 380);
+	}
 }
 
 main();
