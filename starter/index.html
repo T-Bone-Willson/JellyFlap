@@ -69,7 +69,7 @@ bird = {
 		// Either way, it works!
 
 		if (currentstate === states.Splash){
-			this.y = height - 280 + 5*Math.cos(frames/10); //makes the bird go 5 px and down 5px in a constant 10 frame sper second.
+			this.y = height - 280 + 5*Math.cos(frames/10); //makes the bird go 5 px and down 5px in a constant 10 frames per second.
 			this.rotation = 0;
 		} else {
 			this.velocity += this.gravity;
@@ -119,12 +119,12 @@ function onpress(evt){
 			bird.jump();
 			break;
 		case states.Game:
-			currentstate = states.Score;
+			//currentstate = states.Score; Only two Jump BUG FIXED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 			bird.jump();
 			break;
 			// WILL COME BACK TO SORT THIS SECTION OUT!!!!!!!!!!!!
 		case states.Score:
-			currenstate = states.Splash
+			//currenstate = states.Splash BUG FIXED!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!^^^^^^^^^^^^^^^
 			break;
 	}
 }
@@ -201,7 +201,7 @@ function render(){
 	//create variable width 2 to stop us typing in width/2 all the time.
 	var width2 = width/2;
 	// If the game is in pre game state, then draw/present the "tap" instruction animation.
-	if (currentstate === states.Splash){
+	if (currentstate === states.Splash) {
 		s_splash.draw(ctx, width2 - s_splash.width/2, height - 300);
 		// draws the "Get Ready" sprite Message in this current state.
 		s_text.GetReady.draw(ctx, width2 - s_text.GetReady.width/2, height - 380);
