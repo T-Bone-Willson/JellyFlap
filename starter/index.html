@@ -132,11 +132,15 @@ pipes = {
 				height: s_pipeSouth.height
 			});
 		}
+
 		for (var i = 0, len = this._pipes.length; i < len; i++){
 			var p = this._pipes[i];
 
 			//COLLISION DETECTION. CIRCLE RECTANGLE COLLISION!!!
 			if (i === 0){
+
+				score += p.x === bird.x ? 1 : 0; // Keeps track of score.
+
 				var cx = Math.min(Math.max(bird.x, p.x), p.x + p.width);
 				var cy1 = Math.min(Math.max(bird.y, p.y), p.y + p.height);
 				var cy2 = Math.min(Math.max(bird.y, p.y + p.height +  80), p.y + 2*p.height + 80);
@@ -292,6 +296,8 @@ function render(){
 		s_text.GameOver.draw(ctx, width2 - s_text.GameOver.width/2, height - 400);
 		s_score.draw(ctx, width2 - s_score.width/2, height - 340); // Draws score template in "Score" state
 		s_buttons.Ok.draw(ctx, okbtn.x, okbtn.y); // draws okbtn variable.
+	} else {
+		s_numberB.draw(ctx, null, 20, score, width2); // draws score as you go through each pipe
 	}
 }
 
