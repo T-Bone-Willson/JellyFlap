@@ -177,7 +177,7 @@ pipes = {
 		}
 
 	}
-}; // ';' closes off the variables above ^^
+}; 
 
 function onpress(evt){
 	switch (currentstate){
@@ -197,13 +197,13 @@ function onpress(evt){
 				mx = evt.touches[0].clientX;
 				mx = evt.touches[0].clientY;
 			}
-
-			// Forces the user to click on "Okay" button to reset game.
-			if (okbtn.x < mx && mx < okbtn.x + okbtn.width && okbtn.y < my && my < okbtn.y + okbtn.height){
+			
+			
+			
 				pipes.reset();
 				currentstate = states.Splash;
 				score = 0;
-			}
+			
 			break;
 	}
 }
